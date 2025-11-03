@@ -1,28 +1,70 @@
-const approvedUsers = [
-  { email: "admin@example.com", password: "admin123", approved: true },
-  { email: "fahd@example.com", password: "fahd123", approved: true },
-  { email: "sjil@hotmail.com", password: "sjil2025", approved: true }
+// خط Amiri العربي بصيغة Base64
+const amiriFontBase64 = "AAEAAAALAIAAAwAwT1MvMg8SB..."; // ← اختصرته هنا، استخدم الملف الكامل عندك
+
+let users = [
+  { email: "admin@example.com", password: "admin123", approved: true, role: "admin" },
+  { email: "fahd@example.com", password: "fahd123", approved: true, role: "user" },
+  { email: "sjil@hotmail.com", password: "sjil2025", approved: true, role: "user" }
 ];
 
 const loginForm = document.getElementById("loginForm");
 const loginMsg = document.getElementById("loginMsg");
 const loginSection = document.getElementById("loginSection");
 const formSection = document.getElementById("formSection");
+const adminSection = document.getElementById("adminSection");
+const usersTable = document.getElementById("usersTable");
 
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const email = document.getElementById("loginEmail").value.trim();
   const password = document.getElementById("loginPassword").value;
 
-  const user = approvedUsers.find(u => u.email === email && u.password === password);
+  const user = users.find(u => u.email === email && u.password === password);
 
-  if (user && user.approved) {
+  if (!user) {
+    loginMsg.textContent = "بيانات الدخول غير صحيحة.";
+    return;
+  }
+
+  if (user.role === "admin") {
+    loginSection.classList.add("hidden");
+    adminSection.classList.remove("hidden");
+    renderUsers();
+  } else if (user.approved) {
     loginSection.classList.add("hidden");
     formSection.classList.remove("hidden");
   } else {
-    loginMsg.textContent = "بيانات الدخول غير صحيحة أو لم تتم الموافقة.";
+    loginMsg.textContent = "لم تتم الموافقة على دخولك بعد.";
   }
 });
+
+function renderUsers() {
+  usersTable.innerHTML = "";
+  users.forEach((u, idx) => {
+    if (u.role !== "admin") {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${u.email}</td>
+        <td>${u.approved ? "موافق" : "معلق"}</td>
+        <td>
+          <button onclick="approveUser(${idx})">موافقة</button>
+          <button onclick="rejectUser(${idx})">رفض</button>
+        </td>
+      `;
+      usersTable.appendChild(row);
+    }
+  });
+}
+
+function approveUser(idx) {
+  users[idx].approved = true;
+  renderUsers();
+}
+
+function rejectUser(idx) {
+  users[idx].approved = false;
+  renderUsers();
+}
 
 function collectData() {
   return {
@@ -41,19 +83,21 @@ function collectData() {
   };
 }
 
-// تصدير PDF
+// تصدير PDF بخط عربي
 document.getElementById("exportPDF").addEventListener("click", () => {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 
+  doc.addFileToVFS("Amiri-Regular.ttf", amiriFontBase64);
+  doc.addFont("Amiri-Regular.ttf", "Amiri", "normal");
+  doc.setFont("Amiri");
+  doc.setFontSize(14);
+
   const data = collectData();
   let y = 20;
 
-  doc.setFont("helvetica");
-  doc.setFontSize(14);
-
   for (const [key, value] of Object.entries(data)) {
-    doc.text(`${translateKey(key)}: ${value}`, 20, y, { align: "right" });
+    doc.text(`${translateKey(key)}: ${value}`, 180, y, { align: "right" });
     y += 10;
   }
 
@@ -78,9 +122,9 @@ function translateKey(key) {
   return map[key] || key;
 }
 
-// تصدير Word
+// تصدير Word من رابط مباشر
 document.getElementById("exportDocx").addEventListener("click", async () => {
-  const response = await fetch("template.docx");
+  const response = await fetch("https://raw.githubusercontent.com/fahd-ali49/quote-app/main/template.docx");
   const arrayBuffer = await response.arrayBuffer();
   const zip = new PizZip(arrayBuffer);
   const doc = new window.docxtemplater().loadZip(zip);
