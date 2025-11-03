@@ -129,4 +129,7 @@ document.getElementById("exportDocx").addEventListener("click", async () => {
   doc.setData(collectData());
 
   try {
-    doc
+    doc.render();
+  } catch (error) {
+    console.error(error);
+    alert
