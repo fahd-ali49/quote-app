@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>نموذج عرض السعر</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- تسجيل الدخول -->
+    <section id="loginSection">
+      <h2>تسجيل الدخول</h2>
+      <form id="loginForm">
+        <label>الإيميل</label>
+        <input type="email" id="loginEmail" required>
+        <label>كلمة المرور</label>
+        <input type="password" id="loginPassword" required>
+        <button type="submit">دخول</button>
+      </form>
+      <p id="loginMsg"></p>
+    </section>
+
+    <!-- نموذج البيانات -->
+    <section id="formSection" class="hidden">
+      <h2>نموذج البيانات</h2>
+      <form id="dataForm">
+        <input id="entity" placeholder="الجهة">
+        <input id="totalPrice" placeholder="السعر الإجمالي">
+        <input id="vat" placeholder="القيمة المضافة">
+        <input id="unitPrice" placeholder="السعر الإفرادي">
+        <input id="boards" placeholder="اللوحات">
+        <input id="color" placeholder="اللون">
+        <input id="specs" placeholder="المواصفات">
+        <input id="totalText" placeholder="الإجمالي كتابة">
+        <input id="warranty" placeholder="الضمان">
+        <input id="campaign" placeholder="الحملة">
+        <input id="seller" placeholder="البائع">
+        <input id="phone" placeholder="رقم الجوال">
+
+        <button type="button" id="exportPDF">تصدير PDF</button>
+        <button type="button" id="exportDocx">تصدير Word</button>
+      </form>
+    </section>
+
+  </div>
+
+  <!-- مكتبات خارجية -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.1.1/pizzip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.36.0/docxtemplater.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

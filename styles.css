@@ -1,0 +1,28 @@
+body {
+  font-family: "Tajawal", sans-serif;
+  background: #f5f6fa;
+  margin: 0; padding: 20px;
+  direction: rtl;
+}
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+.hidden { display: none; }
+label { display: block; margin: 10px 0 5px; font-weight: bold; }
+input, textarea {
+  width: 100%; padding: 10px;
+  border: 1px solid #ccc; border-radius: 6px;
+  margin-bottom: 15px;
+}
+button {
+  background: #2d98da; color: #fff;
+  border: none; padding: 12px 20px;
+  border-radius: 6px; cursor: pointer;
+  font-size: 16px;
+}
+button:hover { background: #227093; }
