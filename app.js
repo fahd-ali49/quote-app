@@ -1,6 +1,3 @@
-// خط Amiri العربي بصيغة Base64
-const amiriFontBase64 = "AAEAAAALAIAAAwAwT1MvMg8SB..."; // ← اختصرته هنا، استخدم الملف الكامل عندك
-
 let users = [
   { email: "admin@example.com", password: "admin123", approved: true, role: "admin" },
   { email: "fahd@example.com", password: "fahd123", approved: true, role: "user" },
@@ -83,7 +80,7 @@ function collectData() {
   };
 }
 
-// تصدير PDF بخط عربي
+// تصدير PDF بخط Amiri
 document.getElementById("exportPDF").addEventListener("click", () => {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
@@ -132,16 +129,4 @@ document.getElementById("exportDocx").addEventListener("click", async () => {
   doc.setData(collectData());
 
   try {
-    doc.render();
-  } catch (error) {
-    console.error(error);
-    alert("خطأ في تعبئة القالب");
-    return;
-  }
-
-  const out = doc.getZip().generate({ type: "blob" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(out);
-  link.download = "quote.docx";
-  link.click();
-});
+    doc
