@@ -2,7 +2,7 @@
 let users = [
   { email: "admin@example.com", password: "admin123", approved: true, role: "admin" },
   { email: "fahd@example.com", password: "fahd123", approved: true, role: "user" },
-  { email: "sjil@hotmail.com", password: "sjil2025", approved: true, role: "user" }
+  { email: "sjil@hotmail.com", password: "123", approved: true, role: "user" }
 ];
 
 // عناصر الصفحة
