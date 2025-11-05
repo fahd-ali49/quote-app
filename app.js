@@ -101,7 +101,7 @@ document.getElementById("exportPDF").addEventListener("click", () => {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 
-  doc.setFont("helvetica"); // مؤقتاً لتفادي خطأ Amiri
+  doc.setFont("helvetica");
   doc.setFontSize(14);
 
   const data = collectData();
