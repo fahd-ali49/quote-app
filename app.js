@@ -1,11 +1,9 @@
-// قائمة المستخدمين
 let users = [
   { email: "admin@example.com", password: "admin123", approved: true, role: "admin" },
   { email: "fahd@example.com", password: "fahd123", approved: true, role: "user" },
   { email: "sjil@hotmail.com", password: "123", approved: true, role: "user" }
 ];
 
-// عناصر الصفحة
 const loginForm = document.getElementById("loginForm");
 const loginMsg = document.getElementById("loginMsg");
 const loginSection = document.getElementById("loginSection");
@@ -13,7 +11,6 @@ const formSection = document.getElementById("formSection");
 const adminSection = document.getElementById("adminSection");
 const usersTable = document.getElementById("usersTable");
 
-// تسجيل الدخول
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const email = document.getElementById("loginEmail").value.trim();
@@ -37,7 +34,6 @@ loginForm.addEventListener("submit", (e) => {
   }
 });
 
-// عرض المستخدمين للأدمن
 function renderUsers() {
   usersTable.innerHTML = "";
   users.forEach((u, idx) => {
@@ -66,7 +62,6 @@ function rejectUser(idx) {
   renderUsers();
 }
 
-// جمع البيانات من النموذج
 function collectData() {
   return {
     entity: document.getElementById("entity").value,
@@ -84,7 +79,6 @@ function collectData() {
   };
 }
 
-// ترجمة أسماء الحقول
 function translateKey(key) {
   const map = {
     entity: "الجهة",
@@ -103,12 +97,11 @@ function translateKey(key) {
   return map[key] || key;
 }
 
-// تصدير PDF بخط Amiri
 document.getElementById("exportPDF").addEventListener("click", () => {
-  const jsPDF = window.jspdf.jsPDF;
+  const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 
-  doc.setFont("Amiri");
+  doc.setFont("helvetica"); // مؤقتاً لتفادي خطأ Amiri
   doc.setFontSize(14);
 
   const data = collectData();
@@ -122,7 +115,6 @@ document.getElementById("exportPDF").addEventListener("click", () => {
   doc.save("quote.pdf");
 });
 
-// تصدير Word من القالب
 document.getElementById("exportDocx").addEventListener("click", async () => {
   try {
     const response = await fetch("https://raw.githubusercontent.com/fahd-ali49/quote-app/main/template.docx");
