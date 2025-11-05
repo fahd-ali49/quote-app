@@ -1,5 +1,6 @@
 let users = [
   { email: "admin@example.com", password: "admin123", approved: true, role: "admin" },
+  { email: "fahd@example.com", password: "fahd123", approved: true, role: "user" },
   { email: "sjil@hotmail.com", password: "sjil2025", approved: true, role: "user" }
 ];
 
@@ -79,24 +80,6 @@ function collectData() {
   };
 }
 
-function translateKey(key) {
-  const map = {
-    entity: "الجهة",
-    totalPrice: "السعر الإجمالي",
-    vat: "القيمة المضافة",
-    unitPrice: "السعر الإفرادي",
-    boards: "اللوحات",
-    color: "اللون",
-    specs: "المواصفات",
-    totalText: "الإجمالي كتابة",
-    warranty: "الضمان",
-    campaign: "الحملة",
-    seller: "البائع",
-    phone: "رقم الجوال"
-  };
-  return map[key] || key;
-}
-
 // تصدير PDF بخط Amiri
 document.getElementById("exportPDF").addEventListener("click", () => {
   const { jsPDF } = window.jspdf;
@@ -118,24 +101,44 @@ document.getElementById("exportPDF").addEventListener("click", () => {
   doc.save("quote.pdf");
 });
 
-// تصدير Word من قالب خارجي
+function translateKey(key) {
+  const map = {
+    entity: "الجهة",
+    totalPrice: "السعر الإجمالي",
+    vat: "القيمة المضافة",
+    unitPrice: "السعر الإفرادي",
+    boards: "اللوحات",
+    color: "اللون",
+    specs: "المواصفات",
+    totalText: "الإجمالي كتابة",
+    warranty: "الضمان",
+    campaign: "الحملة",
+    seller: "البائع",
+    phone: "رقم الجوال"
+  };
+  return map[key] || key;
+}
+
+// تصدير Word من رابط مباشر
 document.getElementById("exportDocx").addEventListener("click", async () => {
-  try {
-    const response = await fetch("https://raw.githubusercontent.com/fahd-ali49/quote-app/main/template.docx");
-    const arrayBuffer = await response.arrayBuffer();
-    const zip = new PizZip(arrayBuffer);
-    const doc = new window.docxtemplater().loadZip(zip);
+  const response = await fetch("https://raw.githubusercontent.com/fahd-ali49/quote-app/main/template.docx");
+  const arrayBuffer = await response.arrayBuffer();
+  const zip = new PizZip(arrayBuffer);
+  const doc = new window.docxtemplater().loadZip(zip);
 
-    doc.setData(collectData());
+  doc.setData(collectData());
+
+   try {
     doc.render();
-
-    const out = doc.getZip().generate({ type: "blob" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(out);
-    link.download = "quote.docx";
-    link.click();
   } catch (error) {
     console.error("خطأ في التصدير:", error);
     alert("حدث خطأ أثناء تصدير الملف. تأكد من القالب والمكتبات.");
+    return;
   }
+
+  const out = doc.getZip().generate({ type: "blob" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(out);
+  link.download = "quote.docx";
+  link.click();
 });
