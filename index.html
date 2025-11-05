@@ -2,64 +2,31 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>نموذج عرض السعر</title>
+  <title>توليد المقولات</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.1.1/pizzip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.36.0/docxtemplater.min.js"></script>
 </head>
 <body>
-  <div class="container">
+  <h1>مولد المقولات</h1>
+  <label for="name">الاسم:</label>
+  <input type="text" id="name" placeholder="اكتب اسمك هنا"><br><br>
 
-    <!-- تسجيل الدخول -->
-    <section id="loginSection">
-      <h2>تسجيل الدخول</h2>
-      <form id="loginForm">
-        <label>الإيميل</label>
-        <input type="email" id="loginEmail" required>
-        <label>كلمة المرور</label>
-        <input type="password" id="loginPassword" required>
-        <button type="submit">دخول</button>
-      </form>
-      <p id="loginMsg"></p>
-    </section>
+  <label for="quote">المقولة:</label>
+  <textarea id="quote" rows="5" placeholder="اكتب المقولة هنا"></textarea><br><br>
 
-    <!-- نموذج البيانات -->
-    <section id="formSection" class="hidden">
-      <h2>نموذج البيانات</h2>
-      <form id="dataForm">
-        <input id="entity" placeholder="الجهة">
-        <input id="totalPrice" placeholder="السعر الإجمالي">
-        <input id="vat" placeholder="القيمة المضافة">
-        <input id="unitPrice" placeholder="السعر الإفرادي">
-        <input id="boards" placeholder="اللوحات">
-        <input id="color" placeholder="اللون">
-        <input id="specs" placeholder="المواصفات">
-        <input id="totalText" placeholder="الإجمالي كتابة">
-        <input id="warranty" placeholder="الضمان">
-        <input id="campaign" placeholder="الحملة">
-        <input id="seller" placeholder="البائع">
-        <input id="phone" placeholder="رقم الجوال">
+  <button onclick="showPreview()">تصدير PDF</button>
+  <button onclick="generateWord()">تصدير Word</button>
 
-        <button type="button" id="exportPDF">تصدير PDF</button>
-        <button type="button" id="exportDocx">تصدير Word</button>
-      </form>
-    </section>
-
-    <!-- لوحة تحكم الأدمن -->
-    <section id="adminSection" class="hidden">
-      <h2>لوحة تحكم الأدمن</h2>
-      <table>
-        <thead>
-          <tr><th>الإيميل</th><th>الحالة</th><th>إجراء</th></tr>
-        </thead>
-        <tbody id="usersTable"></tbody>
-      </table>
-    </section>
-
+  <!-- معاينة قبل التصدير -->
+  <div id="previewModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; background:#fff; border:1px solid #ccc; padding:20px; z-index:1000;">
+    <h2>معاينة قبل التصدير</h2>
+    <div id="previewContent" style="white-space:pre-wrap; font-family:Amiri, serif;"></div>
+    <button onclick="exportConfirmed()">تأكيد التصدير</button>
+    <button onclick="closePreview()">إغلاق</button>
   </div>
 
-  <!-- مكتبات خارجية -->
-  <script src="pizzip.min.js"></script>
-  <script src="docxtemplater.js"></script>
-  <script src="jspdf.umd.min.js"></script>
   <script src="amiri.js"></script>
   <script src="app.js"></script>
 </body>
